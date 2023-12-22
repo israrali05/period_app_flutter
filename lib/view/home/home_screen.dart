@@ -2,23 +2,123 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_text/circular_text/model.dart';
 import 'package:flutter_circular_text/circular_text/widget.dart';
 import 'package:get/get.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:period_app/model/user_model.dart';
+import 'package:period_app/service/calculate_period_analytics.dart';
 import 'package:period_app/utils/app_colors.dart';
 import 'package:period_app/utils/app_styles.dart';
 import 'package:period_app/utils/mysize.dart';
 import 'package:period_app/view/widgets/custom_text.dart';
 import 'package:period_app/view/widgets/primary_button.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:hive/hive.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late String ovulationDay;
+  late String nextCycleDuration;
+  late String leftDaysNextPeriod;
+  late String nextPeriodStartDate;
+  late String pms;
+  late String fertile;
+  late String period;
+
+  @override
+  void initState() {
+    super.initState();
+    // Call the function to calculate and store menstrual cycle data
+    calculateDatesAndSaveToHive().then((_) {
+      // Once data is saved, load the screen
+      setState(() {}); // Refresh the UI after data is stored
+    });
+  }
+
+  Future<Map<String, dynamic>> fetchDataFromHive() async {
+    try {
+      final userBox = Hive.box('userBox');
+      return {
+        'ovulationDay': userBox.get('ovulationDay') ?? '',
+        'nextCycleDuration': userBox.get('nextCycleDuration') ?? '',
+        'nextPeriodStartDate': userBox.get('nextPeriodStartDate') ?? '',
+        'leftDaysNextPeriod': userBox.get('leftDaysNextPeriod') ?? '',
+        'Period': userBox.get('Period') ?? '',
+        'Fertile': userBox.get('Fertile') ?? '',
+        'Pms': userBox.get('Pms') ?? '',
+      };
+    } catch (error) {
+      print('Error fetching data from Hive: $error');
+      return {};
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: fetchDataFromHive(),
+        builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator(color: AppColors.primaryColor));
+          } else if (snapshot.hasError || !snapshot.hasData) {
+            return Center(child: Text('No data available'));
+          } else {
+            Map<String, dynamic> hiveData = snapshot.data!;
+                   ovulationDay = hiveData['ovulationDay'] ?? '';
+            nextCycleDuration = hiveData['nextCycleDuration'] ?? '';
+            nextPeriodStartDate = hiveData['nextPeriodStartDate'] ?? '';
+            leftDaysNextPeriod = hiveData['leftDaysNextPeriod'] ?? '';
+            pms = hiveData['Pms'] ?? '';
+            fertile = hiveData['Fertile'] ?? '';
+            period = hiveData['Period'] ?? '';
+    
+            return YourExistingUIWidget(
+              fertile: fertile,
+              period: period,
+              pms: pms,
+              nextPeriodStartDate: nextPeriodStartDate,
+              leftDaysNextPeriod: leftDaysNextPeriod,
+              ovulationDay: ovulationDay,
+              nextCycleDuration: nextCycleDuration,
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class YourExistingUIWidget extends StatelessWidget {
+  final String ovulationDay;
+  final String nextCycleDuration;
+  final String leftDaysNextPeriod;
+  final String nextPeriodStartDate;
+
+  final String period;
+  final String pms;
+  final String fertile;
+
+  const YourExistingUIWidget({
+    Key? key,
+    required this.ovulationDay,
+    required this.nextCycleDuration,
+    required this.leftDaysNextPeriod,
+    required this.nextPeriodStartDate,
+    required this.period,
+    required this.pms,
+    required this.fertile,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     MySize().init(context);
     Map<String, double> dataMap = {
-      'Period': 10,
-      'Pms': 30,
-      'Fertile': 10,
+      'Period': double.parse(period),
+      'Pms': double.parse(pms),
+      'Fertile': double.parse(fertile),
     };
 
     List<Color> colorList = [
@@ -33,7 +133,16 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: MySize.size50),
+              SizedBox(height: MySize.size40),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: MySize.size20),
+                child: CustomText(
+                    textAlign: TextAlign.center,
+                    text: "Your Next Period $leftDaysNextPeriod Days Left",
+                    textStyle: AppStyles.whitetext900
+                        .copyWith(fontSize: MySize.size20)),
+              ),
+              SizedBox(height: MySize.size20),
               Stack(
                 children: [
                   Positioned(
@@ -45,7 +154,7 @@ class HomeScreen extends StatelessWidget {
                           "Period",
                           style: TextStyle(
                             fontSize: MySize.size15,
-                            color: AppColors.whiteColor,
+                            color:  Color(0xFFEF4A4A),
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -123,7 +232,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           child: Column(children: [
                             CustomText(
-                                text: "Ovulation In 5 \nDays",
+                                text: "Ovulation In $ovulationDay \nDays",
                                 textAlign: TextAlign.center,
                                 textStyle: AppStyles.whitetext900
                                     .copyWith(fontSize: MySize.size15)),
@@ -131,12 +240,12 @@ class HomeScreen extends StatelessWidget {
                               padding:
                                   EdgeInsets.symmetric(vertical: MySize.size20),
                               child: CustomText(
-                                  text: "25 Feb",
+                                  text: nextPeriodStartDate,
                                   textStyle: AppStyles.whitetext900
                                       .copyWith(fontSize: MySize.size35)),
                             ),
                             CustomText(
-                                text: "Cycle day 11",
+                                text: "Cycle day $nextCycleDuration",
                                 textStyle: AppStyles.whitetext900
                                     .copyWith(fontSize: MySize.size15)),
                             Padding(
@@ -144,6 +253,9 @@ class HomeScreen extends StatelessWidget {
                                   horizontal: MySize.size50,
                                   vertical: MySize.size10),
                               child: PrimaryButton(
+                                ontap: (){
+                                    Get.toNamed("/NumberPickerScreen");
+                                },
                                   fontsize: MySize.size15,
                                   text: "Log Period",
                                   buttonColor: AppColors.primaryColor,
@@ -236,4 +348,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  // Add other necessary properties and methods here
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:period_app/utils/app_colors.dart';
 import 'package:period_app/utils/app_images.dart';
 import 'package:period_app/utils/app_styles.dart';
@@ -14,8 +15,8 @@ class EndNumberPickerScreen extends StatefulWidget {
 
 class _EndNumberPickerScreenState extends State<EndNumberPickerScreen> {
   int _selectedValue = 0;
-  final int minValue = 0;
-  final int maxValue = 31;
+  final int minValue = 3;
+  final int maxValue = 7;
 
   @override
   Widget build(BuildContext context) {
@@ -24,35 +25,27 @@ class _EndNumberPickerScreenState extends State<EndNumberPickerScreen> {
       backgroundColor: AppColors.secondaryColor,
       body: Column(
         children: [
-          // SizedBox(
-          //   height: MySize.size38,
-          // ),
-          // CircleAvatar(
-          //   radius: MySize.size300,
-          //   backgroundImage: AssetImage(AppImages.selectDateImage),
-          // ),
           Image.asset(
             AppImages.endDateImage,
             width: double.infinity,
             fit: BoxFit.cover,
           ),
-          SizedBox(
-            height: MySize.size38,
-          ),
+          SizedBox(height: MySize.size38),
           Padding(
             padding: EdgeInsets.symmetric(
                 vertical: MySize.size20, horizontal: MySize.size20),
             child: CustomText(
-                textAlign: TextAlign.center,
-                text: "How Many Days Does Your Cycle Last On Avaerage?",
-                textStyle:
-                    AppStyles.whitetext900.copyWith(fontSize: MySize.size18)),
+              textAlign: TextAlign.center,
+              text: "Determining Cycle Length Last On Average??",
+              textStyle:
+                  AppStyles.whitetext900.copyWith(fontSize: MySize.size18),
+            ),
           ),
           Expanded(
             child: Center(
               child: ListWheelScrollView(
-                itemExtent: 60, // Change this value to adjust item height
-                diameterRatio: 1.5, // Change this value for scaling
+                itemExtent: 60,
+                diameterRatio: 1.5,
                 physics: FixedExtentScrollPhysics(),
                 children: List.generate(
                   maxValue - minValue + 1,
@@ -79,18 +72,30 @@ class _EndNumberPickerScreenState extends State<EndNumberPickerScreen> {
             padding: EdgeInsets.symmetric(
                 vertical: MySize.size40, horizontal: MySize.size40),
             child: CustomButton(
-                ontap: () {
-                  Get.toNamed("/BottomNavBar");
-                },
-                text: "Continue",
-                buttonColor: AppColors.whiteColor,
-                width: double.infinity,
-                height: MySize.size52,
-                borderColor: AppColors.blackColor,
-                borderRadius: MySize.size15),
+              ontap: () {
+                saveSelectedValueToHive(); // Save selected value to Hive before navigating
+                Get.toNamed("/SelectLastPeriodDate");
+              },
+              text: "Continue",
+              buttonColor: AppColors.whiteColor,
+              width: double.infinity,
+              height: MySize.size52,
+              borderColor: AppColors.blackColor,
+              borderRadius: MySize.size15,
+            ),
           ),
         ],
       ),
     );
+  }
+
+  void saveSelectedValueToHive() async {
+    try {
+      final box = Hive.box(
+          'userBox'); // Replace 'selectedValueBox' with your preferred box name
+      await box.put('periodCycle', _selectedValue);
+    } catch (error) {
+      print('Error saving data to Hive: $error');
+    }
   }
 }

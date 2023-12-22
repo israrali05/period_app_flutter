@@ -30,6 +30,6 @@ class AppImages {
   static const String insightsymptoms =
       "assets/images/png/insight_symptoms.png";
   static const String insightDischarge = "assets/images/png/insights_water.png";
-
-  
+  static const String enterNamepicture =
+      "assets/images/png/enter_your_name.png";
 }

@@ -6,9 +6,11 @@ import 'package:period_app/view/widgets/custom_text.dart';
 
 class UserTextfieldWidget extends StatelessWidget {
   final String lableText;
+  final TextEditingController? controller;
   const UserTextfieldWidget({
     super.key,
     required this.lableText,
+    this.controller,
   });
 
   @override
@@ -23,6 +25,7 @@ class UserTextfieldWidget extends StatelessWidget {
               textStyle: AppStyles.whitetext700
                   .copyWith(fontSize: MySize.size15, height: 0)),
           TextField(
+            controller: controller,
             style: AppStyles.whitetext700.copyWith(
                 fontSize: MySize.size18,
                 color: AppColors.primaryColor), // Text color

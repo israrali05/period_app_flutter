@@ -44,18 +44,18 @@ class ContinueScreen extends StatelessWidget {
                       textStyle: AppStyles.whitetext900
                           .copyWith(fontSize: MySize.size26)),
                   SizedBox(
-                    height: MySize.size40,
+                    height: MySize.size60,
                   ),
                   CustomText(
                       text:
                           "Please answer a few questons and we will personalise the app for you!",
                       textAlign: TextAlign.center,
                       textStyle: AppStyles.whitetext900
-                          .copyWith(fontSize: MySize.size18)),
-                  SizedBox(height: MySize.size40),
+                          .copyWith(fontSize: MySize.size16)),
+                  SizedBox(height: MySize.size60),
                   CustomButton(
                       ontap: () {
-                        Get.toNamed("/NumberPickerScreen");
+                        Get.toNamed("/EnterYourName");
                       },
                       text: "Continue",
                       buttonColor: AppColors.whiteColor,
@@ -71,7 +71,7 @@ class ContinueScreen extends StatelessWidget {
                           'By tapping “continue” you agree to our terms of service and privacy policy',
                       textAlign: TextAlign.center,
                       textStyle: AppStyles.whitetext500
-                          .copyWith(fontSize: MySize.size12)),
+                          .copyWith(fontSize: MySize.size10)),
                 ],
               ),
             ))

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:period_app/utils/app_colors.dart';
 import 'package:period_app/utils/app_styles.dart';
 import 'package:period_app/utils/mysize.dart';
@@ -14,6 +16,25 @@ class TapToChange extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MySize().init(context);
+    TextEditingController nameController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController sexController = TextEditingController();
+
+    Future<void> _getImage(ImageSource source) async {
+      final picker = ImagePicker();
+      final pickedImage = await picker.pickImage(source: source);
+
+      if (pickedImage != null) {
+        final userBox = Hive.box('userBox');
+        await userBox.put('avatar', pickedImage.path.toString());
+
+        // Update UI to show the picked image in a circular avatar
+        // setState(() {
+        //   avatarImagePath = pickedImage.path;
+        // });
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: AppColors.secondaryColor,
@@ -46,12 +67,66 @@ class TapToChange extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: MySize.size40,
+                height: MySize.size25,
               ),
               Center(
-                child: CircleAvatar(
-                  radius: MySize.size60,
-                  backgroundColor: AppColors.greyColor,
+                child: GestureDetector(
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: AppColors.secondaryColor,
+                          elevation: 1,
+                          title: CustomText(
+                              text: "Select Image Source",
+                              textStyle: AppStyles.whitetext700.copyWith(
+                                  fontSize: MySize.size16, height: 0)),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    _getImage(ImageSource.gallery);
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.all(MySize.size10),
+                                    child: CustomText(
+                                        text: "Gallery",
+                                        textStyle: AppStyles.whitetext700
+                                            .copyWith(
+                                                fontSize: MySize.size14,
+                                                height: 0)),
+                                  ),
+                                ),
+                                SizedBox(height: MySize.size15),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    _getImage(ImageSource.camera);
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.all(MySize.size10),
+                                    child: CustomText(
+                                        text: "Camera",
+                                        textStyle: AppStyles.whitetext700
+                                            .copyWith(
+                                                fontSize: MySize.size14,
+                                                height: 0)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: MySize.size60,
+                    backgroundColor: AppColors.greyColor,
+                  ),
                 ),
               ),
               SizedBox(
@@ -89,19 +164,19 @@ class TapToChange extends StatelessWidget {
                         const Color.fromRGBO(255, 255, 255, 1).withOpacity(0.3),
                     child: Column(
                       children: [
-                        UserTextfieldWidget(lableText: "First Name"),
+                        UserTextfieldWidget(
+                            lableText: "Enter Name",
+                            controller: nameController),
                         SizedBox(
                           height: MySize.size20,
                         ),
-                        UserTextfieldWidget(lableText: "Last Name"),
+                        UserTextfieldWidget(
+                            lableText: "Email", controller: emailController),
                         SizedBox(
                           height: MySize.size20,
                         ),
-                        UserTextfieldWidget(lableText: "Email"),
-                        SizedBox(
-                          height: MySize.size20,
-                        ),
-                        UserTextfieldWidget(lableText: "Sex"),
+                        UserTextfieldWidget(
+                            lableText: "Sex", controller: sexController),
                       ],
                     ),
                   )
@@ -111,7 +186,24 @@ class TapToChange extends StatelessWidget {
                 height: MySize.size30,
               ),
               CustomButton(
-                  ontap: () {},
+                  ontap: () async {
+                    String enteredName = nameController.text;
+                    String enteredEmail = emailController.text;
+                    String enteredSex = sexController.text;
+
+                    try {
+                      final userBox = Hive.box('userBox');
+
+                      await userBox.put('name', enteredName);
+                      await userBox.put('email', enteredEmail);
+                      await userBox.put('sex', enteredSex);
+
+                      print(
+                          'User data saved successfully to Hive! $enteredName');
+                    } catch (error) {
+                      print('Error saving data to Hive: $error');
+                    }
+                  },
                   text: "Save",
                   buttonColor: AppColors.whiteColor,
                   width: MySize.size120,
