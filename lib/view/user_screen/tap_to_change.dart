@@ -8,7 +8,6 @@ import 'package:period_app/utils/mysize.dart';
 import 'package:period_app/view/user_screen/components/tap_to_change_textfield.dart';
 import 'package:period_app/view/widgets/custom_bottom.dart';
 import 'package:period_app/view/widgets/custom_text.dart';
-import 'package:period_app/view/widgets/primary_button.dart';
 
 class TapToChange extends StatelessWidget {
   const TapToChange({super.key});
@@ -20,7 +19,7 @@ class TapToChange extends StatelessWidget {
     TextEditingController emailController = TextEditingController();
     TextEditingController sexController = TextEditingController();
 
-    Future<void> _getImage(ImageSource source) async {
+    Future<void> getImage(ImageSource source) async {
       final picker = ImagePicker();
       final pickedImage = await picker.pickImage(source: source);
 
@@ -88,7 +87,7 @@ class TapToChange extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pop(context);
-                                    _getImage(ImageSource.gallery);
+                                    getImage(ImageSource.gallery);
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.all(MySize.size10),
@@ -104,7 +103,7 @@ class TapToChange extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pop(context);
-                                    _getImage(ImageSource.camera);
+                                    getImage(ImageSource.camera);
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.all(MySize.size10),

@@ -14,7 +14,7 @@ class PrimaryButton extends StatelessWidget {
 
   final Color borderColor;
 
-  const PrimaryButton({
+  const PrimaryButton({super.key, 
     required this.text,
     required this.buttonColor,
     required this.width,

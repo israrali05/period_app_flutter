@@ -7,8 +7,6 @@ import 'package:period_app/utils/app_colors.dart';
 import 'package:period_app/utils/app_images.dart';
 import 'package:period_app/view/auth/continue_screen.dart/continue_screen.dart';
 import 'package:period_app/view/dashboard/dashboard_screen.dart';
-import 'package:period_app/view/enter_name_screen.dart/enter_name_screen.dart';
-import 'package:period_app/view/splash_screen/splash_screen.dart';
 
 class SplashScreenLogo extends StatefulWidget {
   @override
@@ -34,13 +32,13 @@ class _SplashScreenLogoState extends State<SplashScreenLogo> {
         userData['Period'] != null &&
         userData['Period'].isNotEmpty) {
       // Navigate to HomeScreen if name and email exist
-      Timer(Duration(seconds: 3), () {
+      Timer(const Duration(seconds: 3), () {
         Get.offAll(BottomNavBar());
       });
     } else {
       // Navigate to EnterNameScreen if name and email don't exist
-   Timer(Duration(seconds: 3), () {
-        Get.offAll(ContinueScreen());
+   Timer(const Duration(seconds: 3), () {
+        Get.offAll(const ContinueScreen());
       });
     }
   }

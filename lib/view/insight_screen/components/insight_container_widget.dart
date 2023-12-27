@@ -21,8 +21,8 @@ class MyCustomContainer extends StatelessWidget {
         color: bgColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(
-            color: Color(0x3F000000),
+          const BoxShadow(
+            color: const Color(0x3F000000),
             blurRadius: 2,
             offset: Offset(0, 2),
             spreadRadius: 0,

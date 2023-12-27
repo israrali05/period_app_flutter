@@ -123,12 +123,12 @@ class InsightLeftContainer extends StatelessWidget {
                   enabledBorder: OutlineInputBorder(
                     borderRadius:
                         BorderRadius.circular(MySize.size20), // Border radius
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                         color: AppColors.primaryColor), // Default border color
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0), // Border radius
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                         color: AppColors.primaryColor), // Focused border color
                   ),
                 ),

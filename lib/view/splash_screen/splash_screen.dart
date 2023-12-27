@@ -3,7 +3,6 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:period_app/model/user_model.dart';
 import 'package:period_app/utils/app_colors.dart';
 import 'package:period_app/utils/app_images.dart';
 import 'package:period_app/utils/app_styles.dart';
@@ -19,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Set a timer to navigate to the next screen after 4 seconds (4000 milliseconds)
-    Timer(Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 4), () {
       // Navigate to the next screen using Navigator
       Get.toNamed("/BottomNavBar");
     });
@@ -31,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
       future: _fetchNameFromHive(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            body: Center(
+          return const Scaffold(
+            body: const Center(
               child: CircularProgressIndicator(
                 color: AppColors.primaryColor,
               ),
@@ -97,7 +96,7 @@ Future<String> _fetchNameFromHive() async {
                         children: [
                           AnimatedTextKit(
                             repeatForever: true,
-                            pause: Duration(milliseconds: 100),
+                            pause: const Duration(milliseconds: 100),
                             animatedTexts: [
                               ScaleAnimatedText('Hi $userName!',
                                   textAlign: TextAlign.center),

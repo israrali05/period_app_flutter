@@ -22,7 +22,7 @@ class _CalendarWidgetState extends State<CalendarScreen> {
         appBar: AppBar(
           backgroundColor: AppColors.primaryColor,
           surfaceTintColor: AppColors.primaryColor,
-          title: Text("Calendar"),
+          title: const Text("Calendar"),
           centerTitle: true,
           titleTextStyle:
               AppStyles.whitetext900.copyWith(fontSize: MySize.size18),
@@ -59,11 +59,11 @@ class _CalendarWidgetState extends State<CalendarScreen> {
                       headerMargin: EdgeInsets.only(bottom: MySize.size40),
                       formatButtonTextStyle: AppStyles.whitetext400
                           .copyWith(fontSize: MySize.size20),
-                      leftChevronIcon: Icon(
+                      leftChevronIcon: const Icon(
                         Icons.arrow_back_ios_rounded,
                         color: AppColors.whiteColor,
                       ),
-                      rightChevronIcon: Icon(
+                      rightChevronIcon: const Icon(
                         Icons.arrow_forward_ios_rounded,
                         color: AppColors.whiteColor,
                       ),
@@ -93,16 +93,16 @@ class _CalendarWidgetState extends State<CalendarScreen> {
                       withinRangeTextStyle: AppStyles.whitetext400
                           .copyWith(fontSize: MySize.size12),
 
-                      todayDecoration: BoxDecoration(
+                      todayDecoration: const BoxDecoration(
                         color: AppColors
                             .secondaryColor, // Set the selected date color
                         shape: BoxShape.circle,
                       ),
-                      selectedDecoration: BoxDecoration(
+                      selectedDecoration: const BoxDecoration(
                         color: Colors.white, // Set the selected date color
                         shape: BoxShape.circle,
                       ),
-                      selectedTextStyle: TextStyle(
+                      selectedTextStyle: const TextStyle(
                         color: AppColors.primaryColor,
                       ),
                       // Set selected date text color
@@ -111,11 +111,11 @@ class _CalendarWidgetState extends State<CalendarScreen> {
                           color: AppColors.whiteColor
                               .withOpacity(0.6)), // Set default date text color
                     ),
-                    daysOfWeekStyle: DaysOfWeekStyle(
+                    daysOfWeekStyle: const DaysOfWeekStyle(
                       weekdayStyle: TextStyle(
                           color: Colors
                               .white), // Change the color of weekday names here
-                      weekendStyle: TextStyle(
+                      weekendStyle: const TextStyle(
                           color: Colors
                               .white), // Modify weekend text style if needed
                     ),

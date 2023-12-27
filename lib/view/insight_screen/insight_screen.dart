@@ -42,12 +42,12 @@ class InsightScreen extends StatelessWidget {
               ),
             ],
           ),
-          Divider(
+          const Divider(
             color: AppColors.whiteColor,
             height: 1,
             thickness: 0.5,
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [InsightRightContainer(), InsightLeftContainer()],
@@ -55,7 +55,7 @@ class InsightScreen extends StatelessWidget {
           SizedBox(
             height: MySize.size50,
           ),
-          ArticleWidget()
+          const ArticleWidget()
         ]),
       ),
     );

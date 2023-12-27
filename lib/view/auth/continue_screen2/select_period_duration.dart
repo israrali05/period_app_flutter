@@ -9,6 +9,8 @@ import 'package:period_app/view/widgets/custom_bottom.dart';
 import 'package:period_app/view/widgets/custom_text.dart';
 
 class EndNumberPickerScreen extends StatefulWidget {
+  const EndNumberPickerScreen({super.key});
+
   @override
   _EndNumberPickerScreenState createState() => _EndNumberPickerScreenState();
 }
@@ -46,7 +48,7 @@ class _EndNumberPickerScreenState extends State<EndNumberPickerScreen> {
               child: ListWheelScrollView(
                 itemExtent: 60,
                 diameterRatio: 1.5,
-                physics: FixedExtentScrollPhysics(),
+                physics: const FixedExtentScrollPhysics(),
                 children: List.generate(
                   maxValue - minValue + 1,
                   (index) {

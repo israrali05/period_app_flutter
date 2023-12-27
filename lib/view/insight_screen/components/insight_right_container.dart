@@ -20,7 +20,7 @@ class InsightRightContainer extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0),
         ),
-        shadows: [
+        shadows: const [
           BoxShadow(
             color: Color(0x3F000000),
             blurRadius: 1,
@@ -32,28 +32,28 @@ class InsightRightContainer extends StatelessWidget {
       padding: EdgeInsets.symmetric(
           vertical: MySize.size20, horizontal: MySize.size20),
       child: Column(children: [
-        InsightCategoryWidget(
+        const InsightCategoryWidget(
           image: AppImages.insightMood,
           text: "Mood",
         ),
         SizedBox(
           height: MySize.size25,
         ),
-        InsightCategoryWidget(
+        const InsightCategoryWidget(
           image: AppImages.insightheart,
           text: "Sex",
         ),
         SizedBox(
           height: MySize.size25,
         ),
-        InsightCategoryWidget(
+        const InsightCategoryWidget(
           image: AppImages.insightsymptoms,
           text: "Symptoms",
         ),
         SizedBox(
           height: MySize.size25,
         ),
-        InsightCategoryWidget(
+        const InsightCategoryWidget(
           image: AppImages.insightDischarge,
           text: "Discharge",
         ),
@@ -80,7 +80,7 @@ class InsightRightContainer extends StatelessWidget {
         SizedBox(
           height: MySize.size25,
         ),
-        InsightCategoryWidget(
+        const InsightCategoryWidget(
           image: AppImages.insightedit,
           text: "Notes",
         ),

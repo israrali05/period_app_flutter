@@ -21,7 +21,7 @@ Future<void> calculateDatesAndSaveToHive() async {
       // Assuming menstrualCycleLength is the length of the entire cycle in days
       Duration duration = Duration(days: menstrualCycleLength);
       DateTime ovulationDay =
-          currentDate.add(duration).subtract(Duration(days: 14));
+          currentDate.add(duration).subtract(const Duration(days: 14));
 
       Duration daysUntilOvulation = ovulationDay.difference(currentDate);
       int daysLeft = daysUntilOvulation.inDays;
@@ -30,6 +30,8 @@ Future<void> calculateDatesAndSaveToHive() async {
       String formattedOvulationDay = daysLeft.toString();
 
       // end ovulation day
+
+      // calculate fertile start and end date 
 
       String formattedNextPeriodStartDate =
           DateFormat('dd MMM').format(nextPeriodStartDate);

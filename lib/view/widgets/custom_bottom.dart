@@ -13,7 +13,7 @@ class CustomButton extends StatelessWidget {
 
   final Color borderColor;
 
-  const CustomButton({
+  const CustomButton({super.key, 
     required this.text,
     required this.buttonColor,
     required this.width,
@@ -40,7 +40,7 @@ class CustomButton extends StatelessWidget {
             BoxShadow(
               color: AppColors.blackColor.withOpacity(0.2),
               blurRadius: 20,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               spreadRadius: 0,
             )
           ],

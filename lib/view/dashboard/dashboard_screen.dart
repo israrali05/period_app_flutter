@@ -7,6 +7,9 @@ import 'package:period_app/view/calendar_screen/calendar_screen.dart';
 import 'package:period_app/view/home/home_screen.dart';
 import 'package:period_app/view/insight_screen/insight_screen.dart';
 import 'package:period_app/view/user_screen/user_screen.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/bottom_provider.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -14,23 +17,30 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int _currentIndex = 0;
   final List<Widget> _pages = [
     HomeScreen(),
     CalendarScreen(),
-    InsightScreen(),
+    const InsightScreen(),
     UserScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final bottomNavBarProvider = Provider.of<BottomNavBarProvider>(context);
+    int _currentIndex = bottomNavBarProvider.currentIndex;
     MySize().init(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: _pages[_currentIndex],
+      body: PageView(
+        controller: bottomNavBarProvider.pageController,
+        children: _pages,
+        onPageChanged: (index) {
+          bottomNavBarProvider.updateIndex(index);
+        },
+      ),
       bottomNavigationBar: Container(
         // padding: EdgeInsets.symmetric(vertical: MySize.size20),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color(0xfff487b7),
           boxShadow: [
             BoxShadow(
@@ -43,7 +53,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ),
         child: BottomNavigationBar(
           elevation: 0,
-          backgroundColor: Color(0xfff487b7),
+          backgroundColor: AppColors.secondaryColor,
           currentIndex: _currentIndex,
           type: BottomNavigationBarType.fixed,
           selectedItemColor: AppColors.primaryColor,
@@ -53,9 +63,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           unselectedLabelStyle:
               AppStyles.whitetext900.copyWith(fontSize: MySize.size15),
           onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
+            bottomNavBarProvider.updateIndex(index);
           },
           items: [
             BottomNavigationBarItem(

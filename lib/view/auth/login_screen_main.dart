@@ -1,11 +1,9 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:period_app/utils/app_colors.dart';
 import 'package:period_app/utils/app_images.dart';
 import 'package:period_app/utils/app_styles.dart';
 import 'package:period_app/utils/mysize.dart';
-import 'package:period_app/view/home/home_screen.dart';
 import 'package:period_app/view/widgets/custom_bottom.dart';
 import 'package:period_app/view/widgets/custom_text.dart';
 

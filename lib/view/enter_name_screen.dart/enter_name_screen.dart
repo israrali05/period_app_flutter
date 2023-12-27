@@ -9,7 +9,6 @@ import 'package:period_app/utils/mysize.dart';
 import 'package:period_app/view/user_screen/components/tap_to_change_textfield.dart';
 import 'package:period_app/view/widgets/custom_bottom.dart';
 import 'package:period_app/view/widgets/custom_text.dart';
-import 'package:provider/provider.dart';
 
 class EnterYourName extends StatefulWidget {
   const EnterYourName({Key? key}) : super(key: key);

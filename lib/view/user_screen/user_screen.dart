@@ -24,11 +24,11 @@ class _UserScreenState extends State<UserScreen> {
         builder: (BuildContext context,
             AsyncSnapshot<Map<String, dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
                 child:
                     CircularProgressIndicator(color: AppColors.primaryColor));
           } else if (snapshot.hasError || !snapshot.hasData) {
-            return Center(child: Text('No data available'));
+            return const Center(child: Text('No data available'));
           } else {
             Map<String, dynamic> hiveData = snapshot.data!;
             name = hiveData['name'] ?? '';
@@ -113,7 +113,7 @@ class YourExistingUIWidget extends StatelessWidget {
                   child: CircleAvatar(
                     backgroundImage: image != ""
                         ? AssetImage(image.toString())
-                        : AssetImage(
+                        : const AssetImage(
                             "assets/images/png/women_dp.jpg",
                           ),
                     radius: MySize.size60,
@@ -155,7 +155,7 @@ class YourExistingUIWidget extends StatelessWidget {
                       height: MySize.size10,
                     ),
                     Container(
-                      decoration: ShapeDecoration(
+                      decoration: const ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             width: 0.5,
@@ -182,7 +182,7 @@ class YourExistingUIWidget extends StatelessWidget {
                       height: MySize.size10,
                     ),
                     Container(
-                      decoration: ShapeDecoration(
+                      decoration: const ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             width: 0.5,

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:period_app/service/calculate_period_analytics.dart';
 import 'package:period_app/utils/app_colors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:period_app/utils/app_images.dart';
 import 'package:period_app/utils/app_styles.dart';
 import 'package:period_app/utils/mysize.dart';
 import 'package:period_app/view/widgets/custom_bottom.dart';
@@ -11,15 +10,17 @@ import 'package:period_app/view/widgets/custom_text.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class SelectLastPeriodDate extends StatefulWidget {
+  const SelectLastPeriodDate({super.key});
+
   @override
   _SelectLastPeriodDateState createState() => _SelectLastPeriodDateState();
 }
 
 class _SelectLastPeriodDateState extends State<SelectLastPeriodDate> {
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
+  final DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  Map<DateTime, List> _events = {};
+  final Map<DateTime, List> _events = {};
 
   Future<void> _saveStartDateToHive(DateTime selectedDate) async {
     try {
@@ -88,11 +89,11 @@ class _SelectLastPeriodDateState extends State<SelectLastPeriodDate> {
                         formatButtonTextStyle: AppStyles.whitetext400.copyWith(
                           fontSize: MySize.size20,
                         ),
-                        leftChevronIcon: Icon(
+                        leftChevronIcon: const Icon(
                           Icons.arrow_back_ios_rounded,
                           color: AppColors.whiteColor,
                         ),
-                        rightChevronIcon: Icon(
+                        rightChevronIcon: const Icon(
                           Icons.arrow_forward_ios_rounded,
                           color: AppColors.whiteColor,
                         ),
@@ -104,15 +105,15 @@ class _SelectLastPeriodDateState extends State<SelectLastPeriodDate> {
                       ),
                       calendarStyle: CalendarStyle(
                         // Set styles for the calendar
-                        todayDecoration: BoxDecoration(
+                        todayDecoration: const BoxDecoration(
                           color: AppColors.secondaryColor,
                           shape: BoxShape.circle,
                         ),
-                        selectedDecoration: BoxDecoration(
+                        selectedDecoration: const BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
                         ),
-                        selectedTextStyle: TextStyle(
+                        selectedTextStyle: const TextStyle(
                           color: AppColors.primaryColor,
                         ),
                         defaultTextStyle: AppStyles.whitetext400.copyWith(
@@ -120,7 +121,7 @@ class _SelectLastPeriodDateState extends State<SelectLastPeriodDate> {
                           color: AppColors.whiteColor.withOpacity(0.6),
                         ),
                       ),
-                      daysOfWeekStyle: DaysOfWeekStyle(
+                      daysOfWeekStyle: const DaysOfWeekStyle(
                         weekdayStyle: TextStyle(
                           color: Colors.white,
                         ),
@@ -128,7 +129,7 @@ class _SelectLastPeriodDateState extends State<SelectLastPeriodDate> {
                           color: Colors.white,
                         ),
                       ),
-                      availableCalendarFormats: {
+                      availableCalendarFormats: const {
                         CalendarFormat.month: 'Month',
                       },
                     ),

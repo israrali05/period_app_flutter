@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:period_app/model/user_model.dart';
+import 'package:period_app/provider/bottom_provider.dart';
 import 'package:period_app/provider/user_name_controller.dart';
 import 'package:period_app/view/auth/continue_screen.dart/continue_screen.dart';
 import 'package:period_app/view/auth/continue_screen2/cycle_average_length.dart';
@@ -34,7 +35,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+      providers: [
+      ChangeNotifierProvider(create: (_) => UserProvider()),
+      ChangeNotifierProvider(create: (_) => BottomNavBarProvider()),
+      ],
       child: GetMaterialApp(
         title: 'Period App',
         debugShowCheckedModeBanner: false,
@@ -66,25 +70,25 @@ class MyApp extends StatelessWidget {
           ),
           GetPage(
             name: '/EnterYourName',
-            page: () => EnterYourName(),
+            page: () => const EnterYourName(),
             transition: Transition
                 .rightToLeft, // Set a different transition for this route
           ),
           GetPage(
             name: '/LoginScreenMain',
-            page: () => LoginScreenMain(),
+            page: () => const LoginScreenMain(),
             // transition:
             //     Transition.zoom, // Set a different transition for this route
           ),
           GetPage(
             name: '/TapToChange',
-            page: () => TapToChange(),
+            page: () => const TapToChange(),
             // transition:
             //     Transition.zoom, // Set a different transition for this route
           ),
           GetPage(
             name: '/LoginScreen',
-            page: () => LoginScreen(),
+            page: () => const LoginScreen(),
             // Set a different transition for this route
           ),
           GetPage(
@@ -94,7 +98,7 @@ class MyApp extends StatelessWidget {
           ),
           GetPage(
             name: '/ContinueScreen',
-            page: () => ContinueScreen(),
+            page: () => const ContinueScreen(),
             // Set a different transition for this route
           ),
           GetPage(
@@ -104,7 +108,7 @@ class MyApp extends StatelessWidget {
           ),
           GetPage(
             name: '/EndNumberPickerScreen',
-            page: () => EndNumberPickerScreen(),
+            page: () => const EndNumberPickerScreen(),
             // Set a different transition for this route
           ),
           GetPage(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:period_app/utils/app_colors.dart';
 import 'package:period_app/utils/app_images.dart';
 import 'package:period_app/utils/app_styles.dart';
@@ -23,7 +22,7 @@ class ContinueScreen extends StatelessWidget {
         ),
 
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment(0.00, -1.00),
               end: Alignment(0, 1),

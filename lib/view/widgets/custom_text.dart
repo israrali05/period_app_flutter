@@ -5,7 +5,7 @@ class CustomText extends StatelessWidget {
   final TextStyle textStyle;
   final TextAlign? textAlign; // Add TextAlign as an optional parameter
 
-  const CustomText({
+  const CustomText({super.key, 
     required this.text,
     required this.textStyle,
     this.textAlign, // Include textAlign as an optional parameter

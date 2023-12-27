@@ -31,12 +31,12 @@ class UserTextfieldWidget extends StatelessWidget {
                 color: AppColors.primaryColor), // Text color
             cursorColor: AppColors.primaryColor,
             // Cursor color
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               contentPadding: EdgeInsets.all(0),
               // hintText: 'First Name', // Hint text
               // hintStyle: AppStyles.whitetext700
               //     .copyWith(fontSize: MySize.size15), // Hint text color
-              enabledBorder: UnderlineInputBorder(
+              enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(
                     color: Colors.white), // Border color when enabled
               ),
