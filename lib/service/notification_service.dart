@@ -5,7 +5,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 class NotificationService {
   static Future<void> initialize() async {
     AwesomeNotifications().initialize(
-      'resource://drawable/launcher_icon.png',
+      null,
       [
         NotificationChannel(
           channelKey: 'basic_channel',
