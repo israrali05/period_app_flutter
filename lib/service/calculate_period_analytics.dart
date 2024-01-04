@@ -44,7 +44,7 @@ Future<void> calculateDatesAndSaveToHive() async {
           nextPeriodStartDate.subtract(const Duration(days: 7));
 
 // alaram Calculate
-      await userBox.put('alarmNextPeriodStartDate', nextPeriodlastDate);
+      await userBox.put('alarmNextPeriodStartDate', nextPeriodStartDate);
       await userBox.put('alarmNextPeriodEndDate', nextPeriodlastDate);
       await userBox.put('alarmOvulationStartDate', ovulationStart);
       await userBox.put('alarmOvulationEndDate', ovulationEnd);
