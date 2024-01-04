@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -30,6 +31,7 @@ class _EnterYourNameState extends State<EnterYourName> {
   @override
   void dispose() {
     nameController.dispose();
+    emailController.dispose();
     super.dispose();
   }
 
@@ -40,15 +42,20 @@ class _EnterYourNameState extends State<EnterYourName> {
 
       // Fetch the UserModel object from the box
       UserModel? user = userBox.get('user');
+        final email = userBox.get('email');
 
       // Pre-fill the text field if UserModel exists
       if (user != null) {
         setState(() {
           nameController.text = user.name.toString();
+          emailController.text = email.toString();
+
         });
       }
     } catch (error) {
-      print('Error checking existing name: $error');
+      if (kDebugMode) {
+        print('Error checking existing name: $error');
+      }
     }
   }
 
@@ -104,9 +111,13 @@ class _EnterYourNameState extends State<EnterYourName> {
                     await userBox.put('name', enteredName);
                     await userBox.put('email', enteredEmail);
 
-                    print('Name saved successfully to Hive! $enteredName');
+                    if (kDebugMode) {
+                      print('Name saved successfully to Hive! $enteredName');
+                    }
                   } catch (error) {
-                    print('Error saving data to Hive: $error');
+                    if (kDebugMode) {
+                      print('Error saving data to Hive: $error');
+                    }
                   }
 
                   // Navigate to the next screen

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -9,6 +10,8 @@ import 'package:period_app/view/widgets/custom_bottom.dart';
 import 'package:period_app/view/widgets/custom_text.dart';
 
 class NumberPickerScreen extends StatefulWidget {
+  const NumberPickerScreen({super.key});
+
   @override
   _NumberPickerScreenState createState() => _NumberPickerScreenState();
 }
@@ -57,7 +60,7 @@ class _NumberPickerScreenState extends State<NumberPickerScreen> {
               child: ListWheelScrollView(
                 itemExtent: 60, // Change this value to adjust item height
                 diameterRatio: 1.5, // Change this value for scaling
-                physics: FixedExtentScrollPhysics(),
+                physics: const FixedExtentScrollPhysics(),
                 children: List.generate(
                   maxValue - minValue + 1,
                   (index) {
@@ -107,7 +110,9 @@ class _NumberPickerScreenState extends State<NumberPickerScreen> {
       await userBox.put(
           'averageCycle', _selectedValue); // Save selected value to Hive
     } catch (error) {
-      print('Error saving data to Hive: $error');
+      if (kDebugMode) {
+        print('Error saving data to Hive: $error');
+      }
     }
   }
 }

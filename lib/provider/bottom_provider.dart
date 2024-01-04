@@ -10,7 +10,7 @@ class BottomNavBarProvider extends ChangeNotifier {
     _currentIndex = index;
     pageController.animateToPage(
       index,
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
     );
     notifyListeners();

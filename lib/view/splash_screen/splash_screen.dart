@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            body: const Center(
+            body: Center(
               child: CircularProgressIndicator(
                 color: AppColors.primaryColor,
               ),

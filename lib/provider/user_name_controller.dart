@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:period_app/model/user_model.dart';
 
@@ -19,8 +19,10 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
       return _userName; // Return the fetched user name
     } catch (error) {
-      print('Error fetching data: $error');
-      throw error;
+      if (kDebugMode) {
+        print('Error fetching data: $error');
+      }
+      rethrow;
     }
   }
 }

@@ -36,7 +36,7 @@ class UserTextfieldWidget extends StatelessWidget {
               // hintText: 'First Name', // Hint text
               // hintStyle: AppStyles.whitetext700
               //     .copyWith(fontSize: MySize.size15), // Hint text color
-              enabledBorder: const UnderlineInputBorder(
+              enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                     color: Colors.white), // Border color when enabled
               ),

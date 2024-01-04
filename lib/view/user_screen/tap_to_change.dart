@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:period_app/model/user_model.dart';
 import 'package:period_app/utils/app_colors.dart';
 import 'package:period_app/utils/app_styles.dart';
 import 'package:period_app/utils/mysize.dart';
@@ -9,15 +11,59 @@ import 'package:period_app/view/user_screen/components/tap_to_change_textfield.d
 import 'package:period_app/view/widgets/custom_bottom.dart';
 import 'package:period_app/view/widgets/custom_text.dart';
 
-class TapToChange extends StatelessWidget {
+class TapToChange extends StatefulWidget {
   const TapToChange({super.key});
+
+  @override
+  State<TapToChange> createState() => _TapToChangeState();
+}
+
+class _TapToChangeState extends State<TapToChange> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController sexController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _checkExistingName();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    sexController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _checkExistingName() async {
+    try {
+      // Access the Hive box
+      final userBox = Hive.box('userBox');
+
+      // Fetch the UserModel object from the box
+      UserModel? user = userBox.get('user');
+      final email = userBox.get('email');
+      final sex = userBox.get('sex');
+
+      // Pre-fill the text field if UserModel exists
+      if (user != null) {
+        setState(() {
+          nameController.text = user.name.toString();
+          emailController.text = email.toString();
+          sexController.text = sex.toString();
+        });
+      }
+    } catch (error) {
+      if (kDebugMode) {
+        print('Error checking existing name: $error');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     MySize().init(context);
-    TextEditingController nameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController sexController = TextEditingController();
 
     Future<void> getImage(ImageSource source) async {
       final picker = ImagePicker();
@@ -51,10 +97,15 @@ class TapToChange extends StatelessWidget {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: MySize.size25),
-            child: Icon(
-              Icons.settings,
-              color: AppColors.greyColor,
-              size: MySize.size24,
+            child: InkWell(
+              onTap: () {
+                Get.toNamed("/SettingScreen");
+              },
+              child: Icon(
+                Icons.settings,
+                color: AppColors.greyColor,
+                size: MySize.size24,
+              ),
             ),
           ),
         ],
@@ -197,10 +248,24 @@ class TapToChange extends StatelessWidget {
                       await userBox.put('email', enteredEmail);
                       await userBox.put('sex', enteredSex);
 
-                      print(
-                          'User data saved successfully to Hive! $enteredName');
+                      Get.snackbar(
+                        'Data Updated Successfully',
+                        'Your Name and Email & image Updated',
+                        backgroundColor: AppColors.primaryColor,
+                        colorText: Colors.white,
+
+                        snackPosition:
+                            SnackPosition.TOP, // Display snackbar at the top
+                      );
+
+                      if (kDebugMode) {
+                        print(
+                            'User data saved successfully to Hive! $enteredName');
+                      }
                     } catch (error) {
-                      print('Error saving data to Hive: $error');
+                      if (kDebugMode) {
+                        print('Error saving data to Hive: $error');
+                      }
                     }
                   },
                   text: "Save",

@@ -39,7 +39,7 @@ class _CalendarWidgetState extends State<CalendarScreen> {
                     calendarFormat: _calendarFormat,
                     focusedDay: _focusedDay,
                     firstDay: DateTime.utc(2023, 1, 1),
-                    lastDay: DateTime.utc(2023, 12, 31),
+                    lastDay: DateTime.utc(2050, 12, 31),
                     selectedDayPredicate: (day) {
                       // Check if the day is selected
                       return isSameDay(_selectedDay, day);
@@ -115,11 +115,11 @@ class _CalendarWidgetState extends State<CalendarScreen> {
                       weekdayStyle: TextStyle(
                           color: Colors
                               .white), // Change the color of weekday names here
-                      weekendStyle: const TextStyle(
+                      weekendStyle: TextStyle(
                           color: Colors
                               .white), // Modify weekend text style if needed
                     ),
-                    availableCalendarFormats: {
+                    availableCalendarFormats: const {
                       CalendarFormat.month: 'Month',
                     },
                   ),

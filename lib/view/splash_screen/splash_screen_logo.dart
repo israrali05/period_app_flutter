@@ -26,19 +26,17 @@ class _SplashScreenLogoState extends State<SplashScreenLogo> {
     // Check if name and email exist in userData
     if (userData['name'] != null &&
         userData['name'].isNotEmpty &&
-        userData['email'] != null &&
-        userData['email'].isNotEmpty &&
         userData['lastPeriodStartDate'] != null &&
         userData['Period'] != null &&
         userData['Period'].isNotEmpty) {
       // Navigate to HomeScreen if name and email exist
       Timer(const Duration(seconds: 3), () {
-        Get.offAll(BottomNavBar());
+        Get.offAll(()=> BottomNavBar());
       });
     } else {
       // Navigate to EnterNameScreen if name and email don't exist
    Timer(const Duration(seconds: 3), () {
-        Get.offAll(const ContinueScreen());
+        Get.offAll(()=> const  ContinueScreen());
       });
     }
   }
@@ -48,7 +46,6 @@ class _SplashScreenLogoState extends State<SplashScreenLogo> {
       final userBox = Hive.box('userBox');
       return {
         'name': userBox.get('name') ?? '',
-        'email': userBox.get('email') ?? '',
         'Period': userBox.get('Period') ?? '',
         'lastPeriodStartDate': userBox.get('lastPeriodStartDate') ?? '',
       };

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:period_app/service/calculate_period_analytics.dart';
@@ -24,10 +25,12 @@ class _SelectLastPeriodDateState extends State<SelectLastPeriodDate> {
 
   Future<void> _saveStartDateToHive(DateTime selectedDate) async {
     try {
-         final startDateBox =  Hive.box('userBox');
+      final startDateBox = Hive.box('userBox');
       await startDateBox.put('lastPeriodStartDate', selectedDate);
     } catch (error) {
-      print('Error saving start date to Hive: $error');
+      if (kDebugMode) {
+        print('Error saving start date to Hive: $error');
+      }
     }
   }
 
@@ -66,7 +69,7 @@ class _SelectLastPeriodDateState extends State<SelectLastPeriodDate> {
                       calendarFormat: _calendarFormat,
                       focusedDay: _focusedDay,
                       firstDay: DateTime.utc(2023, 1, 1),
-                      lastDay: DateTime.utc(2023, 12, 31),
+                      lastDay: DateTime.utc(2050, 12, 31),
                       selectedDayPredicate: (day) {
                         return isSameDay(_selectedDay, day);
                       },

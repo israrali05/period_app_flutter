@@ -16,12 +16,22 @@ class AppImages {
   static const String bottomInsights = "assets/images/png/bottom_insights.png";
   static const String bottomUser = "assets/images/png/bottom_user.png";
 
+  static const String arrowBack = "assets/images/png/arrow_back.png";
+
+
 // Continue Background Image
   static const String continueBackgroundImage =
       "assets/images/png/continue_background_image.png";
   static const String selectDateImage =
       "assets/images/png/select_date_image.png";
   static const String endDateImage = "assets/images/png/end_date_Image.png";
+
+
+// setting
+  static const String settingCalendar = "assets/images/png/setting_calendar.png";
+  static const String settingOvulation = "assets/images/png/setting_ovulation.png";
+
+
 
 // Insights Images
   static const String insightMood = "assets/images/png/insights_mood.png";

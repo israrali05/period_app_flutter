@@ -18,12 +18,25 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   final List<Widget> _pages = [
-    HomeScreen(),
+    const HomeScreen(),
     CalendarScreen(),
     const InsightScreen(),
-    UserScreen(),
+    const UserScreen(),
   ];
+  late final PageController _pageController;
+  int _currentIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _currentIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose(); // Dispose the page controller
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final bottomNavBarProvider = Provider.of<BottomNavBarProvider>(context);

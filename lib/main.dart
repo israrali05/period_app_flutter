@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:period_app/model/user_model.dart';
 import 'package:period_app/provider/bottom_provider.dart';
 import 'package:period_app/provider/user_name_controller.dart';
+import 'package:period_app/service/notification_service.dart';
 import 'package:period_app/view/auth/continue_screen.dart/continue_screen.dart';
 import 'package:period_app/view/auth/continue_screen2/cycle_average_length.dart';
 import 'package:period_app/view/auth/continue_screen2/select_last_period_date.dart';
@@ -12,7 +13,11 @@ import 'package:period_app/view/auth/login/login_screen.dart';
 import 'package:period_app/view/auth/login_screen_main.dart';
 import 'package:period_app/view/dashboard/dashboard_screen.dart';
 import 'package:period_app/view/enter_name_screen.dart/enter_name_screen.dart';
+import 'package:period_app/view/fertile_screen/fertility_screen.dart';
 import 'package:period_app/view/home/home_screen.dart';
+import 'package:period_app/view/period_days/period_days.dart';
+import 'package:period_app/view/pms_screen/pms_screen.dart';
+import 'package:period_app/view/setting_screen/setting_screen.dart';
 import 'package:period_app/view/splash_screen/splash_screen.dart';
 import 'package:period_app/view/splash_screen/splash_screen_logo.dart';
 import 'package:period_app/view/user_screen/tap_to_change.dart';
@@ -20,11 +25,13 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:provider/provider.dart';
 
 void main() async {
- WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
-  Hive.registerAdapter<UserModel>(UserModelAdapter()); // Register the adapter for UserModel
+  Hive.registerAdapter<UserModel>(
+      UserModelAdapter()); // Register the adapter for UserModel
   await Hive.openBox('userBox'); // ;
+  await NotificationService.initialize();
   runApp(const MyApp());
 }
 
@@ -36,8 +43,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-      ChangeNotifierProvider(create: (_) => UserProvider()),
-      ChangeNotifierProvider(create: (_) => BottomNavBarProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => BottomNavBarProvider()),
       ],
       child: GetMaterialApp(
         title: 'Period App',
@@ -64,7 +71,7 @@ class MyApp extends StatelessWidget {
           ),
           GetPage(
             name: '/homeScreen',
-            page: () => HomeScreen(),
+            page: () => const HomeScreen(),
             transition: Transition
                 .rightToLeft, // Set a different transition for this route
           ),
@@ -93,7 +100,7 @@ class MyApp extends StatelessWidget {
           ),
           GetPage(
             name: '/SelectLastPeriodDate',
-            page: () => SelectLastPeriodDate(),
+            page: () => const SelectLastPeriodDate(),
             // Set a different transition for this route
           ),
           GetPage(
@@ -103,7 +110,7 @@ class MyApp extends StatelessWidget {
           ),
           GetPage(
             name: '/NumberPickerScreen',
-            page: () => NumberPickerScreen(),
+            page: () => const NumberPickerScreen(),
             // Set a different transition for this route
           ),
           GetPage(
@@ -112,8 +119,28 @@ class MyApp extends StatelessWidget {
             // Set a different transition for this route
           ),
           GetPage(
+            name: '/SettingScreen',
+            page: () => const SettingScreen(),
+            // Set a different transition for this route
+          ),
+          GetPage(
             name: '/BottomNavBar',
             page: () => BottomNavBar(),
+            // Set a different transition for this route
+          ),
+          GetPage(
+            name: '/PeriodDayScreen',
+            page: () => const PeriodDayScreen(),
+            // Set a different transition for this route
+          ),
+          GetPage(
+            name: '/FertilityScreen',
+            page: () => const FertilityScreen(),
+            // Set a different transition for this route
+          ),
+          GetPage(
+            name: '/PmsScreen',
+            page: () => const PmsScreen(),
             // Set a different transition for this route
           ),
         ],

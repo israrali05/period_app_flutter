@@ -1,10 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:hive/hive.dart';
 
 Future<void> calculateDatesAndSaveToHive() async {
   try {
     final userBox = Hive.box('userBox');
-
     DateTime? lastPeriodStartDate = userBox.get('lastPeriodStartDate');
     int? menstrualCycleLength = userBox.get('averageCycle');
     int? periodCycle = userBox.get('periodCycle');
@@ -14,14 +14,19 @@ Future<void> calculateDatesAndSaveToHive() async {
         menstrualCycleLength != null) {
       DateTime nextPeriodStartDate =
           lastPeriodStartDate.add(Duration(days: menstrualCycleLength));
+      DateTime nextPeriodlastDate =
+          nextPeriodStartDate.add(Duration(days: periodCycle));
 
       // ovulation day
       DateTime currentDate = DateTime.now();
 
+      DateTime ovulationStart =
+          lastPeriodStartDate.add(Duration(days: menstrualCycleLength ~/ 2));
+      DateTime ovulationEnd = ovulationStart.add(const Duration(days: 5));
+
       // Assuming menstrualCycleLength is the length of the entire cycle in days
-      Duration duration = Duration(days: menstrualCycleLength);
-      DateTime ovulationDay =
-          currentDate.add(duration).subtract(const Duration(days: 14));
+
+      DateTime ovulationDay = ovulationStart;
 
       Duration daysUntilOvulation = ovulationDay.difference(currentDate);
       int daysLeft = daysUntilOvulation.inDays;
@@ -31,11 +36,27 @@ Future<void> calculateDatesAndSaveToHive() async {
 
       // end ovulation day
 
-      // calculate fertile start and end date 
+      // calculate fertile start and end date
+      DateTime fertileStart = ovulationStart.subtract(const Duration(days: 5));
+      DateTime fertileEnd = ovulationEnd.add(const Duration(days: 4));
+      // pms start date
+      DateTime pmsStartDate =
+          nextPeriodStartDate.subtract(const Duration(days: 7));
+
+// alaram Calculate
+      await userBox.put('alarmNextPeriodStartDate', nextPeriodlastDate);
+      await userBox.put('alarmNextPeriodEndDate', nextPeriodlastDate);
+      await userBox.put('alarmOvulationStartDate', ovulationStart);
+      await userBox.put('alarmOvulationEndDate', ovulationEnd);
+      await userBox.put('alarmFertileStartDate', fertileStart);
+      await userBox.put('alarmFertileEndDate', fertileEnd);
+      await userBox.put('alarmPmsStartDate', pmsStartDate);
+      //
 
       String formattedNextPeriodStartDate =
           DateFormat('dd MMM').format(nextPeriodStartDate);
       await userBox.put('nextPeriodStartDate', formattedNextPeriodStartDate);
+
       await userBox.put('ovulationDay', formattedOvulationDay);
       await userBox.put('nextCycleDuration', menstrualCycleLength.toString());
 
@@ -67,9 +88,13 @@ Future<void> calculateDatesAndSaveToHive() async {
         calculateDatesAndSaveToHive();
       });
     } else {
-      print('One or more required values are null');
+      if (kDebugMode) {
+        print('One or more required values are null');
+      }
     }
   } catch (error) {
-    print('Error calculating dates and saving to Hive: $error');
+    if (kDebugMode) {
+      print('Error calculating dates and saving to Hive: $error');
+    }
   }
 }
